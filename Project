@@ -1,0 +1,77 @@
+#Install package
+library (tidyverse)
+install.packages("caret")
+insatll.packages("rpart")
+install.packages("GGally")
+install.packages("plotly")
+install.packages("arules")
+install.packages("sampling")
+install.packages("proxy")
+library(proxy)
+library(sampling)
+library(arules)
+library(plotly)
+library(GGally)
+library(caret)
+library(rpart)
+
+#1.Data Processing
+online_df <- online_shoppers_intention
+online_tibble<-as.tibble(online_shoppers_intention
+is.data.frame(online_df)
+
+ggpairs(online_tibble, aes(color= Revenue) #should create less columns 
+summary(online_tibble)
+
+clean.missing.data <- drop_na(online_tibble)
+
+online_tibble %>% group_by (Revenue) %>% summarize_all(mean)
+online_tibble %>% group_by (Revenue) %>% summarize_all(median)
+
+plot_ly(online_tibble, x=~ ,y=~ , z=~, size=~, color=~ ,type="ScatterPlot3D", mode="markers")
+
+#Features
+online<-online_tibble  %>% select(-Revenue)%>% as.matrix() %>% prcomp()
+plot(online)
+str(online)
+ggplot(as.tibble(online$x), aes(x=online1, y=online2, color=online_tibble$Revenue)) + geom_point()
+
+#Feature Selection
+ggplot(online_tibble, aes(x= , y=1:150))+ geom_point()
+ggplot(online_tibble, aes(x= , y=1:150))+ geom_histrogram()
+
+online_tibble %>% pull(Revenue) %>% cut(breaks=3) 
+
+online_tibble %>% pull(Revenue) %>% discretize(method="interval",breaks=3)
+online_tibble %>% pull(Revenue) %>% discretize(method="frequency",breaks=3)
+online_tibble %>% pull(Revenue) %>% discretize (method="cluster", breaks =3)
+
+ggplot(online_tibble, aes(Revenue)) + geom_histogram() + geom_vline(xintercept=online_tibble %>% pull(Revenue) %>% discretize(method="intervel", breaks =3, onlycuts = TRUE), color="blue") +labs(title= "Discretization: intervel")
+ggplot(online_tibble, aes(Revenue)) + geom_histogram() + geom_vline(xintercept=online_tibble %>% pull(Revenue) %>% discretize(method="frequency", breaks =3, onlycuts = TRUE), color="blue") +labs(title= "Discretization: frequency")
+ggplot(online_tibble, aes(Revenue)) + geom_histogram() + geom_vline(xintercept=online_tibble %>% pull(Revenue) %>% discretize(method="cluster", breaks =3, onlycuts = TRUE), color="blue") +labs(title= "Discretization: cluster")
+
+#Standardize data(Z-score)
+online.scaled <- online_tibble %>% mutate_if(is.numeric, fuction(x) as.vector(scale(x)))
+online.scaled
+summary(iris.scaled)
+
+#Similarities and distances
+#numeric data
+sample<- strata(online_tibble, stratanames="Revenue", size=c(5,5,5),method="srswor")
+online_sample<- online_scaled %>% select(-Revenue)%>% slice(1:5)
+online_sample %>% dist(method="euclidean")
+online_sample %>% dist(method="manhattan")
+online_sample %>% dist(method="maximum")
+
+#binary data
+b %>% dist(method ="binary")
+b %>% dist(method ="manhatten")
+b %>% dist(method ="euclidean") %>% "^" (2)
+
+#mix data (chr-> factor)
+m_Gower <-data %>% siat(method="Gower")
+m_Gower
+
+#dummy
+data_dummy<- dummyVars (~., data) %>% predict(data)
+
