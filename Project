@@ -75,3 +75,17 @@ m_Gower
 #dummy
 data_dummy<- dummyVars (~., data) %>% predict(data)
 
+#Classicfication
+
+
+
+
+
+
+
+
+
+
+
+
+
